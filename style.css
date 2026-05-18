@@ -1,0 +1,195 @@
+:root {
+	box-sizing: border-box;
+	color-scheme: dark;
+}
+
+:where(*, *::before, *::after) {
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+:where(img, figures, iframes, svg) {
+	width: 100%;
+}
+
+body {
+	min-height: 300svh;
+	display: grid;
+	grid: 100svh 1fr / 100%;
+	line-height: 1;
+}
+
+#play-button {
+	position: fixed;
+	inset: 1em 1em auto auto;
+	display: block;
+	z-index: 5;
+	padding: 0.25em;
+	background: color-mix(in oklab, #fff, transparent 50%);
+	border-radius: 1em;
+	width: 2.5em;
+	aspect-ratio: 1;
+	text-align: center;
+	align-content: center;
+	font-size: 1.5em;
+	box-shadow: 
+		0 0 20px 0 #ffffff,
+		0 0 5px 0 #fff inset;
+	backdrop-filter: blur(5px);
+	transition: 0.2s ease-in-out;
+
+	&:has(input:checked) {
+		background: color-mix(in oklab, #fff, transparent 0%);
+		color: #000;
+	}
+
+	input {
+		position: absolute;
+		width: 0;
+		height: 0;
+		opacity: 0;
+	}
+
+}
+
+.remain {
+	background: black;
+	z-index: 1;
+}
+
+.mountains {
+	overflow: clip;
+	isolation: isolate;
+	position: relative;
+	display: grid;
+	grid: "stack" 100svh / 100%;
+	background: linear-gradient(to bottom, hsl(240deg, 100%, 0%), hsl(240deg 100% 30%));
+
+	> * {
+		grid-area: stack;
+		height: 100%;
+		object-fit: cover;
+
+	}
+
+	> img:nth-of-type(1) {
+		filter: brightness(15%) drop-shadow(0px 10px 20px #ffffff40);
+		translate: 0% 0%;
+		animation: parallax linear both;
+		animation-timeline: view(block);
+		animation-range: contain 0% cover 80%;
+	}
+
+	> img:nth-of-type(2) {
+		filter: brightness(10%);
+		animation: parallax linear both;
+		animation-timeline: view(block);
+		animation-range: contain 0% cover 100%;
+	}
+
+	> img:nth-of-type(3) {
+		filter: brightness(0%);
+	}
+
+	.moon {
+		position: fixed;
+		inset: 0;
+		padding: 20px;
+		animation: moon ease-in forwards;
+		animation-timeline: view(block);
+		animation-range: exit-crossing 0% cover 100%;
+
+		&::before {
+			content: '';
+			display: block;
+			width: min(80%, 400px);
+			aspect-ratio: 1;
+			background-color: #fff;
+			background-image: 
+				radial-gradient(ellipse at 75% 30%, #00000008 4%, #afafaf 5%, transparent 5%),
+				radial-gradient(ellipse at 0% 20%, #00000008 9%, #858585 10%, transparent 10%),
+				radial-gradient(ellipse at 45% 60%, #00000008 8%, #858585 8%, transparent 8%),
+				radial-gradient(ellipse at 20% 80%, #00000008 7%, #858585 8%, transparent 8%),
+				radial-gradient(ellipse at 30% 40%, #00000008 9%, #858585 10%, transparent 10%),
+				radial-gradient(ellipse at 0% 60%, #888888 50%, #fff 85%, #fff 100%);
+			border-radius: 50%;
+			box-shadow: 15px -10px 50px 10px white;
+
+		}
+
+	}
+
+	
+
+	.stars {
+		position: fixed;
+		inset: 10% auto auto 40%;
+
+		&::before {
+			--shine: white;
+			--blur: 2px;
+			content: '';
+			display: block;
+			
+			width: 5px;
+			border-radius: 50%;
+			aspect-ratio: 1;
+			background: transparent;
+			box-shadow: 
+				450px 300px var(--blur) 0 var(--shine),
+				400px 30px var(--blur) 0 var(--shine),
+				200px 300px var(--blur) 0 var(--shine),
+				30px 30px var(--blur) 0 var(--shine),
+				700px 100px var(--blur) 0 var(--shine),
+				600px 200px var(--blur) 0 var(--shine),
+				800px 300px var(--blur) 0 var(--shine),
+				720px 200px var(--blur) 0 var(--shine),
+				900px 250px var(--blur) 0 var(--shine),
+				790px 270px var(--blur) 0 var(--shine),
+				480px 150px var(--blur) 0 var(--shine),
+				1000px 60px var(--blur) 0 var(--shine),
+				1100px 130px var(--blur) 0 var(--shine);
+		}
+
+	} 
+
+}
+
+@property --hue {
+	syntax: "<angle>";
+	initial-value: 180deg;
+	inherits: true;
+}
+
+@property --lightness {
+	syntax: "<percentage>";
+	initial-value: 50%;
+	inherits: true;
+}
+
+@keyframes hue {
+	to {
+		--hue: calc(180deg + 240deg);
+	}
+}
+
+@keyframes lightness {
+	to {
+		--lightness: 0%;
+	}
+}
+
+@keyframes parallax {
+	to {
+		translate: 0% 50%
+	}
+}
+
+@keyframes moon {
+	to {
+		translate: 130vw 50%
+	}
+}

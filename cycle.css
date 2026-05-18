@@ -1,0 +1,236 @@
+:root {
+	box-sizing: border-box;
+	color-scheme: light;
+}
+
+:where(*, *::before, *::after) {
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+:where(img, figures, iframes, svg) {
+	width: 100%;
+}
+
+body {
+	min-height: 2000svh;
+	line-height: 1;
+}
+
+.frame {
+	position: sticky;
+	inset: 0 0 auto 0;
+	background: linear-gradient(to bottom, var(--hue-top) 0%, var(--hue-bottom) 40%);
+	display: grid;
+	grid: "picture" 100svh / 100%;
+	animation-timeline: scroll(block);
+	animation-timing-function: linear;
+	animation-name: hue-top, hue-bottom;
+	overflow: clip;
+	isolation: isolate;
+
+	img {
+		grid-area: picture;
+		object-fit: cover;
+		height: 100%;
+		animation-timeline: scroll(block);
+		animation-name: stars;
+		animation-fill-mode: both;
+		z-index: -1;
+		scale: 2;
+	}
+
+	.sun, .moon {
+		grid-area: picture;
+		z-index: -1;
+		animation-name: cycle;
+		animation-timing-function: linear;
+		animation-timeline: scroll(block);
+
+		&::before {
+			content: '';
+			width: min(250px, 80%);
+			aspect-ratio: 1;
+			position: fixed;
+
+		}
+
+	}
+
+	.sun::before {
+		background: yellow;
+		box-shadow: 0 0 30px 20px yellow;
+		inset: 50px auto auto 50%;
+		translate: -50% 0%;
+	}
+
+	.moon::before {
+		background: white;
+		box-shadow: 0 0 30px 20px white;
+		inset: auto auto 50px 50%;
+		translate: -50% 0%;
+	}
+
+	svg {
+		grid-area: picture;
+		height: 100%;
+		--light: 0%;
+
+		&:nth-of-type(1) path {
+			animation-timeline: scroll(block);
+			animation-name:  mountain;
+			fill: color-mix(in oklch, #ccc, #000 var(--light));
+		}
+		&:nth-of-type(2) path {
+			animation-timeline: scroll(block);
+			animation-name:  mountain;
+			fill: color-mix(in oklch, #999, #000 var(--light));
+		}
+		&:nth-of-type(3) path {
+			animation-timeline: scroll(block);
+			animation-name:  mountain;
+			fill: color-mix(in oklch, #666, #000 var(--light));
+		}
+
+	}
+
+}
+@keyframes cycle {
+	0% {
+		rotate: 0deg;
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.3;
+	}
+	40% {
+		opacity: 1;
+	}
+	50% {
+		rotate: 180deg;
+	}
+	60% {
+		opacity: 1;
+	}
+	75% {
+		opacity: 0.3;
+	}
+	100% {
+		rotate: 360deg;
+		opacity: 1;
+	}
+}
+
+
+@keyframes stars {
+	0% {
+		opacity: 0;
+	}
+	35% {
+		opacity: 0;
+	}
+	40% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 1;
+	}
+	60% {
+		opacity: 0.75;
+	}
+	65% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		rotate: 360deg;
+	}
+}
+
+@keyframes mountain {
+	0% {
+		--light: 0%;
+	}
+	35% {
+		--light: 40%;
+	}
+	50% {
+		--light: 75%;
+	}
+	75% {
+		--light: 40%;
+	}
+	100% {
+		--light: 0%;
+	}
+}
+
+@property --light {
+	syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+
+
+@keyframes hue-top {
+	0% {
+		--hue-top: oklch(0.6884 0.1059 238.99);
+	}
+	35% {
+		--hue-top: oklch(0.8177 0.1507 75.58);
+	}
+	40% {
+		--hue-top: oklch(0.0919 0.0592 272);
+	}
+	50% {
+		--hue-top: oklch(0.0919 0.0592 272);
+	}
+	60% {
+		--hue-top: oklch(0.0919 0.0592 272);
+	}
+	65% {
+		--hue-top: oklch(0.8177 0.1507 75.58);
+	}
+	100% {
+		--hue-top: oklch(0.6884 0.1059 238.99);
+	}
+}
+
+@keyframes hue-bottom {
+	0% {
+		--hue-bottom: oklch(0.7986 0.1059 238.99);
+	}
+	35% {
+		--hue-bottom: oklch(0.6625 0.1539 46.42);
+	}
+	40% {
+		--hue-bottom: oklch(0.21 0.0917 275.09);
+	}
+	50% {
+		--hue-bottom: oklch(0.21 0.0917 275.09);
+	}
+	60% {
+		--hue-bottom: oklch(0.21 0.0917 275.09);
+	}
+	65% {
+		--hue-bottom: oklch(0.6625 0.1539 46.42);
+	}
+	100% {
+		--hue-bottom: oklch(0.7986 0.1059 238.99);
+	}
+}
+
+@property --hue-top {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: skyblue;
+}
+
+@property --hue-bottom {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: blue;
+}
